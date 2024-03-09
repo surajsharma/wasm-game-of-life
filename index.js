@@ -209,4 +209,5 @@ play.addEventListener("click", () => {
   updateStatus();
 });
 
+pageLoaded();
 setTimeout(pageLoaded, 10);
