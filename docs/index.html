@@ -71,6 +71,22 @@
         width: 100vw;
         height: 100vh;
       }
+
+
+      #loading{
+        height: 100vh;
+        width: 100vw;
+        background: black;
+        color: white;
+        z-index: 9999999;
+        position: absolute;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: monospace;
+        font-size: 5em;
+      }
     </style>
   </head>
   <body>
@@ -80,6 +96,7 @@
     >
 
     <canvas id="game-of-life-canvas"></canvas>
+    <div id="loading">loading...</div>
     <div id="tools">
       <div id="status">
         <p id="gen">Click run to start.</p>

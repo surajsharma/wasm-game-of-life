@@ -12,6 +12,7 @@ const play = document.getElementById("toggle");
 const autogen = document.getElementById("auto");
 const gen = document.getElementById("gen");
 const toolbar = document.getElementById("tools");
+const loader = document.getElementById("loading");
 const ctx = canvas.getContext("2d");
 
 let universe = Universe.new();
@@ -25,6 +26,7 @@ canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
 
 let running = false;
+
 
 function getRandomColor(minBrightness = 50) {
   while (true) {
@@ -158,9 +160,10 @@ const pageLoaded = () => {
   toolbar.style.backgroundColor = hexToRgba(ALIVE_COLOR, 0.1);
 
   updateStatus();
-
   drawGrid();
   drawCells();
+
+  loader.style.display = "none";
   requestAnimationFrame(renderLoop);
 };
 
@@ -208,10 +211,4 @@ play.addEventListener("click", () => {
   updateStatus();
 });
 
-window.addEventListener("load", (e) => {
-  pageLoaded();
-});
-
-document.addEventListener("DOMContentLoaded", function (event) {
-  pageLoaded();
-});
+setTimeout(pageLoaded, 0);
