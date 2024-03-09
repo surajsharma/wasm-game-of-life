@@ -26,7 +26,6 @@ canvas.width = (CELL_SIZE + 1) * width + 1;
 
 let running = false;
 
-
 function getRandomColor(minBrightness = 50) {
   while (true) {
     // Generate random integer representing a color
@@ -162,7 +161,7 @@ const pageLoaded = () => {
   drawGrid();
   drawCells();
 
-  loader.style.display = "none";
+  if (loader) loader.style.display = "none";
   requestAnimationFrame(renderLoop);
 };
 
