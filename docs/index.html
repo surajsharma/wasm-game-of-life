@@ -72,8 +72,7 @@
         height: 100vh;
       }
 
-
-      #loading{
+      #loading {
         height: 100vh;
         width: 100vw;
         background: black;
@@ -107,23 +106,7 @@
         <button id="auto">auto</button>
       </div>
     </div>
-    <script src="./bootstrap.js"></script>
-    <script>
-      javascript: (function () {
-        var script = document.createElement("script");
-        let controls = document.querySelector("#controls");
-        script.onload = function () {
-          var stats = new Stats();
-          stats.domElement.setAttribute("id", "stats");
-          controls.appendChild(stats.dom);
-          requestAnimationFrame(function loop() {
-            stats.update();
-            requestAnimationFrame(loop);
-          });
-        };
-        script.src = "https://mrdoob.github.io/stats.js/build/stats.min.js";
-        controls.appendChild(script);
-      })();
-    </script>
+    <script src="./stats.js"></script>
+    <script defer src="./bootstrap.js"></script>
   </body>
 </html>
