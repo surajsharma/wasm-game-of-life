@@ -8,4 +8,4 @@ import("./stats.js")
       console.error("Error importing `index.js`:", e)
     );
   })
-  .catch((e) => console.error("Error importing file:", e));
+  .catch((e) => console.error("Error importing `stats.js`:", e));
