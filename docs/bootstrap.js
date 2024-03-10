@@ -278,7 +278,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// A dependency graph that contains any wasm must all be imported\n// asynchronously. This `bootstrap.js` file does the single async import, so\n// that no one else needs to worry about it again.\n\n__webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./index.js */ \"./index.js\")).catch((e) =>\n  console.error(\"Error importing `index.js`:\", e)\n);\n\n\n//# sourceURL=webpack:///./bootstrap.js?");
+eval("// A dependency graph that contains any wasm must all be imported\n// asynchronously. This `bootstrap.js` file does the single async import, so\n// that no one else needs to worry about it again.\n\n__webpack_require__.e(/*! import() */ 1).then(__webpack_require__.t.bind(null, /*! ./stats.js */ \"./stats.js\", 7))\n  .then((e) => {\n    __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./index.js */ \"./index.js\")).catch((e) =>\n      console.error(\"Error importing `index.js`:\", e)\n    );\n  })\n  .catch((e) => console.error(\"Error importing file:\", e));\n\n\n//# sourceURL=webpack:///./bootstrap.js?");
 
 /***/ })
 
