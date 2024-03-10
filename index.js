@@ -151,10 +151,10 @@ const updateStatus = () => {
 };
 
 const pageLoaded = () => {
-  if (!stats) return;
-  stats.style.position = "relative";
-  stats.style.border = "1px solid rgba(50, 50, 50, 0.8)";
-
+  if (!!stats) {
+    stats.style.position = "relative";
+    stats.style.border = "1px solid rgba(50, 50, 50, 0.8)";
+  }
   autogen.style.border = "1px solid rgba(225,0,0,0.5)";
   autogen.style.backgroundColor = "rgba(225,0,0,0.2)";
   toolbar.style.backgroundColor = hexToRgba(ALIVE_COLOR, 0.1);
