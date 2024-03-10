@@ -12,6 +12,8 @@ const play = document.getElementById("toggle");
 const autogen = document.getElementById("auto");
 const gen = document.getElementById("gen");
 const toolbar = document.getElementById("tools");
+const stats = document.getElementById("stats");
+const loader = document.getElementById("loading");
 const ctx = canvas.getContext("2d");
 
 let universe = Universe.new();
@@ -149,10 +151,10 @@ const updateStatus = () => {
 };
 
 const pageLoaded = () => {
-  const stats = document.getElementById("stats");
-  const loader = document.getElementById("loading");
+  if (!stats) return;
   stats.style.position = "relative";
   stats.style.border = "1px solid rgba(50, 50, 50, 0.8)";
+
   autogen.style.border = "1px solid rgba(225,0,0,0.5)";
   autogen.style.backgroundColor = "rgba(225,0,0,0.2)";
   toolbar.style.backgroundColor = hexToRgba(ALIVE_COLOR, 0.1);
@@ -164,6 +166,10 @@ const pageLoaded = () => {
   if (loader) loader.style.display = "none";
   requestAnimationFrame(renderLoop);
 };
+
+/*******************************************************************************
+ * Event Listeners
+ *******************************************************************************/
 
 autogen.addEventListener("click", () => {
   auto = !auto;
@@ -209,5 +215,4 @@ play.addEventListener("click", () => {
   updateStatus();
 });
 
-pageLoaded();
 setTimeout(pageLoaded, 10);
