@@ -24,14 +24,6 @@ pub fn greet(msg: &str, name: &str) {
 }
 
 #[wasm_bindgen]
-#[repr(u8)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum Cell {
-    Dead = 0,
-    Alive = 1,
-}
-
-#[wasm_bindgen]
 pub struct Universe {
     width: u32,
     height: u32,
@@ -43,6 +35,11 @@ pub struct Universe {
 
 #[wasm_bindgen]
 impl Universe {
+    pub fn toggle_cell(&mut self, row: u32, column: u32) {
+        let idx = self.get_index(row, column);
+        self.cells.set(idx, !self.cells[idx])
+    }
+
     /// Set the width of the universe.
     /// Resets all cells to the dead state.
     pub fn set_width(&mut self, width: u32) {
@@ -205,6 +202,7 @@ impl Universe {
     }
 }
 
+//imp for tests
 impl Universe {
     /// Get the dead and alive values of the entire universe.
     pub fn get_cells(&self) -> FixedBitSet {

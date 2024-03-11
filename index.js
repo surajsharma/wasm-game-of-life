@@ -151,7 +151,7 @@ const updateStatus = () => {
     : `[paused]\n`;
 };
 
-const supported = (() => {
+const wasmSupported = (() => {
   try {
     if (
       typeof WebAssembly === "object" &&
@@ -176,70 +176,114 @@ const pageLoaded = () => {
   stats.style.border = "1px solid rgba(50, 50, 50, 0.8)";
   autogen.style.border = "1px solid rgba(225,0,0,0.5)";
   autogen.style.backgroundColor = "rgba(225,0,0,0.2)";
+
+  /*******************************************************************************
+   * Event Listeners
+   *******************************************************************************/
+
+  autogen.addEventListener("mouseover", () => {
+    // Change button styles on hover
+
+    if (auto) {
+      autogen.style.border = "1px solid rgba(225,0,0,0.5)";
+      autogen.style.backgroundColor = "rgba(225,0,0,0.2)";
+    }
+    if (!auto) {
+      autogen.style.border = "1px solid rgba(0,255,0,0.5)";
+      autogen.style.backgroundColor = "rgba(0,255,0,0.2)";
+    }
+  });
+
+  autogen.addEventListener("mouseout", () => {
+    // Change button styles back to original on mouseout
+    if (!auto) {
+      autogen.style.border = "1px solid rgba(225,0,0,0.5)";
+      autogen.style.backgroundColor = "rgba(225,0,0,0.2)";
+    }
+    if (auto) {
+      autogen.style.border = "1px solid rgba(0,255,0,0.5)";
+      autogen.style.backgroundColor = "rgba(0,255,0,0.2)";
+    }
+  });
+
+  autogen.addEventListener("click", () => {
+    auto = !auto;
+
+    updateStatus();
+
+    if (auto) {
+      autogen.style.border = "2px solid rgba(0,225,0,0.5)";
+      autogen.style.backgroundColor = "rgba(0,225,0,0.2)";
+    }
+
+    if (!auto) {
+      autogen.style.border = "2px solid rgba(225,0,0,0.5)";
+      autogen.style.backgroundColor = "rgba(225,0,0,0.2)";
+    }
+  });
+
+  reset.addEventListener("click", () => {
+    console.clear();
+    console.log("starting new epoch");
+
+    universe = Universe.new();
+    epoch += 1;
+    ALIVE_COLOR = getRandomColor();
+
+    toolbar.style.backgroundColor = hexToRgba(ALIVE_COLOR, 0.1);
+    running = true;
+    play.innerText = "pause";
+    renderLoop();
+  });
+
+  play.addEventListener("click", () => {
+    console.log(process.env);
+    if (running) {
+      play.innerText = "run";
+    }
+
+    if (!running) {
+      play.innerText = "pause";
+    }
+
+    running = !running;
+    renderLoop();
+    updateStatus();
+  });
+
+  canvas.addEventListener("click", (event) => {
+    const boundingRect = canvas.getBoundingClientRect();
+
+    const scaleX = canvas.width / boundingRect.width;
+    const scaleY = canvas.height / boundingRect.height;
+
+    const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
+    const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+
+    const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
+    const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
+
+    universe.toggle_cell(row, col);
+    drawGrid();
+    drawCells();
+  });
+
   toolbar.style.backgroundColor = hexToRgba(ALIVE_COLOR, 0.1);
 
   updateStatus();
   drawGrid();
   drawCells();
 
-  if (supported) {
+  if (wasmSupported) {
     if (loader) loader.style.display = "none";
   }
 
-  if (!supported) {
+  if (!wasmSupported) {
     if (loader)
       loader.innerText =
         "Webassembly not supported.\nCheck if WASM JIT is enabled or change browser!";
   }
   requestAnimationFrame(renderLoop);
 };
-
-/*******************************************************************************
- * Event Listeners
- *******************************************************************************/
-
-autogen.addEventListener("click", () => {
-  auto = !auto;
-
-  updateStatus();
-  if (auto) {
-    autogen.style.border = "1px solid rgba(0,225,0,0.5)";
-    autogen.style.backgroundColor = "rgba(0,225,0,0.2)";
-  }
-
-  if (!auto) {
-    autogen.style.border = "1px solid rgba(225,0,0,0.5)";
-    autogen.style.backgroundColor = "rgba(225,0,0,0.2)";
-  }
-});
-
-reset.addEventListener("click", () => {
-  console.clear();
-  console.log("starting new epoch");
-
-  universe = Universe.new();
-  epoch += 1;
-  ALIVE_COLOR = getRandomColor();
-
-  toolbar.style.backgroundColor = hexToRgba(ALIVE_COLOR, 0.1);
-  running = true;
-  play.innerText = "pause";
-  renderLoop();
-});
-
-play.addEventListener("click", () => {
-  console.log(process.env);
-  if (running) {
-    play.innerText = "run";
-  }
-
-  if (!running) {
-    play.innerText = "pause";
-  }
-
-  running = !running;
-  renderLoop();
-  updateStatus();
-});
 
 setTimeout(pageLoaded, 100);
