@@ -177,7 +177,7 @@
 /******/ 				promises.push(installedWasmModuleData);
 /******/ 			else {
 /******/ 				var importObject = wasmImportObjects[wasmModuleId]();
-/******/ 				var req = fetch(__webpack_require__.p + "" + {"./pkg/wasm_game_of_life_bg.wasm":"f1e9424063883b3f74c7"}[wasmModuleId] + ".module.wasm");
+/******/ 				var req = fetch(__webpack_require__.p + "" + {"./pkg/wasm_game_of_life_bg.wasm":"da61dfefe2f9a8d4a410"}[wasmModuleId] + ".module.wasm");
 /******/ 				var promise;
 /******/ 				if(importObject instanceof Promise && typeof WebAssembly.compileStreaming === 'function') {
 /******/ 					promise = Promise.all([WebAssembly.compileStreaming(req), importObject]).then(function(items) {
@@ -278,7 +278,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// A dependency graph that contains any wasm must all be imported\n// asynchronously. This `bootstrap.js` file does the single async import, so\n// that no one else needs to worry about it again.\n\n__webpack_require__.e(/*! import() */ 1).then(__webpack_require__.t.bind(null, /*! ./stats.js */ \"./stats.js\", 7))\n  .then((e) => {\n    __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./index.js */ \"./index.js\")).catch((e) =>\n      console.error(\"Error importing `index.js`:\", e)\n    );\n  })\n  .catch((e) => console.error(\"Error importing `stats.js`:\", e));\n\n\n//# sourceURL=webpack:///./bootstrap.js?");
+eval("// A dependency graph that contains any wasm must all be imported\n// asynchronously. This `bootstrap.js` file does the single async import, so\n// that no one else needs to worry about it again.\n\n(async () => {\n  const stats = await __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.t.bind(null, /*! ./stats.js */ \"./stats.js\", 7));\n  const index = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./index.js */ \"./index.js\"));\n\n  if (!stats || !index) {\n    console.log(\"Error importing file.\", stats || index);\n  }\n})();\n\n\n//# sourceURL=webpack:///./bootstrap.js?");
 
 /***/ })
 
