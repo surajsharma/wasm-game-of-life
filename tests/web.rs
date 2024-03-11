@@ -1,10 +1,18 @@
 //! Test suite for the Web and headless browsers.
 #![cfg(target_arch = "wasm32")]
 
-extern crate wasm_bindgen_test;
-extern crate wasm_game_of_life;
 use wasm_bindgen_test::*;
 use wasm_game_of_life::Universe;
+
+extern crate wasm_bindgen_test;
+extern crate wasm_game_of_life;
+extern crate web_sys;
+
+macro_rules! log {
+    ( $( $t:tt )* ) => {
+        web_sys::console::log_1(&format!( $( $t )* ).into());
+    }
+}
 
 wasm_bindgen_test_configure!(run_in_browser);
 
@@ -37,5 +45,10 @@ pub fn test_tick() {
 
     // Call `tick` and then see if the cells in the `Universe`s are the same.
     input_universe.tick();
+    log!(
+        "test_tick \n{} {}",
+        input_universe.get_cells(),
+        expected_universe.get_cells()
+    );
     assert_eq!(&input_universe.get_cells(), &expected_universe.get_cells());
 }

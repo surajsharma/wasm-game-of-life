@@ -19,7 +19,7 @@ const ctx = canvas.getContext("2d");
 let universe = Universe.new();
 let epoch = 1;
 let auto = false;
-let stats;
+let stats = undefined;
 
 const width = universe.width();
 const height = universe.height();
@@ -151,8 +151,26 @@ const updateStatus = () => {
     : `[paused]\n`;
 };
 
+const supported = (() => {
+  try {
+    if (
+      typeof WebAssembly === "object" &&
+      typeof WebAssembly.instantiate === "function"
+    ) {
+      const module = new WebAssembly.Module(
+        Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00)
+      );
+      if (module instanceof WebAssembly.Module)
+        return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
+    }
+  } catch (e) {}
+  return false;
+})();
+
 const pageLoaded = () => {
-  stats = document.getElementById("stats");
+  while (stats === undefined) {
+    stats = document.getElementById("stats");
+  }
 
   stats.style.position = "relative";
   stats.style.border = "1px solid rgba(50, 50, 50, 0.8)";
@@ -164,7 +182,12 @@ const pageLoaded = () => {
   drawGrid();
   drawCells();
 
-  if (loader) loader.style.display = "none";
+  if (supported) {
+    if (loader) loader.style.display = "none";
+  } else {
+    loader.innerText =
+      "Webassembly not spoorted.\nCheck if WASM JIT is enabled or change browser!";
+  }
   requestAnimationFrame(renderLoop);
 };
 

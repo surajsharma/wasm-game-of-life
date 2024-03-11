@@ -215,17 +215,11 @@ impl Universe {
     /// of each cell as an array.
     pub fn set_cells(&mut self, cells: &[(u32, u32)]) {
         for (row, col) in cells.iter().cloned() {
-            let size = (self.width * self.height) as usize;
-
-            let mut cells = FixedBitSet::with_capacity(size);
-
             let idx = self.get_index(row, col);
-
-            cells.set(idx, true);
-
-            log!("tick {}", cells);
-
-            self.cells = cells;
+            let mut new_cells = self.cells.clone();
+            new_cells.set(idx, true);
+            self.cells = new_cells;
         }
+        log!("tick cells {}", self.cells);
     }
 }

@@ -2,10 +2,11 @@
 // asynchronously. This `bootstrap.js` file does the single async import, so
 // that no one else needs to worry about it again.
 
-import("./stats.js")
-  .then((e) => {
-    import("./index.js").catch((e) =>
-      console.error("Error importing `index.js`:", e)
-    );
-  })
-  .catch((e) => console.error("Error importing `stats.js`:", e));
+(async () => {
+  const stats = await import("./stats.js");
+  const index = await import("./index.js");
+
+  if (!stats || !index) {
+    console.log("Error importing file.", stats || index);
+  }
+})();
