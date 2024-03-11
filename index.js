@@ -184,9 +184,12 @@ const pageLoaded = () => {
 
   if (supported) {
     if (loader) loader.style.display = "none";
-  } else {
-    loader.innerText =
-      "Webassembly not spoorted.\nCheck if WASM JIT is enabled or change browser!";
+  }
+
+  if (!supported) {
+    if (loader)
+      loader.innerText =
+        "Webassembly not supported.\nCheck if WASM JIT is enabled or change browser!";
   }
   requestAnimationFrame(renderLoop);
 };
